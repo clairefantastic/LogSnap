@@ -1,11 +1,13 @@
 import argparse
-from parser import highlight_line, extract_keywords
 from collections import defaultdict
+from parser import highlight_line, extract_keywords
+from ai import generate_summary
 
 def main():
     parser = argparse.ArgumentParser(description="LogSnap: Highlight and summarize Linux logs.")
     parser.add_argument("--file", required=True, help="Path to log file (e.g., /var/log/syslog)")
     parser.add_argument("--only", choices=["info", "warning", "error"], help="Filter by log level")
+    parser.add_argument("--gpt-summary", action="store_true", help="Generate AI summary of logs")
     args = parser.parse_args()
 
     counts = defaultdict(int)
@@ -33,6 +35,11 @@ def main():
     print("--------------")
     for word, freq in extract_keywords(all_lines):
         print(f"{word}: {freq}")
+
+    if args.gpt_summary:
+        print("\n🧠 GPT Summary")
+        print("--------------")
+        print(generate_summary(all_lines))
 
 if __name__ == "__main__":
     main()
