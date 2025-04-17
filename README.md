@@ -1,8 +1,6 @@
 # 🪵 LogSnap
 
-**LogSnap** is a Unix/Linux command-line tool that parses system log files, highlights warnings and errors with color, and summarizes key insights like log counts and top keywords.
-
-Whether you're debugging a crash or just scanning logs, LogSnap gives you a quick, readable summary right from your terminal.
+**LogSnap** is a Unix/Linux command-line tool that parses system log files, highlights warnings and errors with color, and summarizes key insights like log counts, top keywords, and — optionally — a GPT-generated summary using the OpenAI API.
 
 ---
 
@@ -16,6 +14,7 @@ Whether you're debugging a crash or just scanning logs, LogSnap gives you a quic
 - 📊 Summary report:
   - Counts by severity
   - Top 5 keywords
+- 🤖 Optional GPT summary with `--gpt-summary` (OpenAI)
 - 🎛 Filter by severity with `--only` flag
 
 ---
@@ -32,6 +31,13 @@ python logsnap.py --file /var/log/syslog
 
 ```bash
 python logsnap.py --file sample.log --only error
+```
+
+### 🤖 Generate a one-line GPT summary
+
+```bash
+export OPENAI_API_KEY=your-key-here
+python logsnap.py --file sample.log --gpt-summary
 ```
 
 ---
@@ -55,13 +61,15 @@ connection: 1
 timeout: 1
 backup: 1
 completed: 1
+
+🧠 GPT Summary
+--------------
+System logs indicate frequent failed connections and a high CPU temperature warning.
 ```
 
 ---
 
 ## 🧪 Try it out
-
-You can test LogSnap with real logs or with our sample file:
 
 ### ✅ Sample log (small)
 
@@ -71,8 +79,7 @@ python logsnap.py --file sample.log
 
 ### ✅ Sample log (large)
 
-Download the mock 1000-line log for stress testing:
-[sample_big.log](./sample_big.log)
+Download: [sample_big.log](./sample_big.log)
 
 ---
 
@@ -81,7 +88,7 @@ Download the mock 1000-line log for stress testing:
 1. Clone this repo:
 
 ```bash
-git clone https://github.com/yourusername/logsnap.git
+git clone https://github.com/clairefantastic/logsnap.git
 cd logsnap
 ```
 
@@ -100,12 +107,32 @@ pip install -r requirements.txt
 
 ---
 
+## 🧠 OpenAI Setup
+
+To use GPT summaries, you need an OpenAI API key:
+
+1. Get your key from: https://platform.openai.com/account/api-keys
+2. Set it in your terminal:
+
+```bash
+export OPENAI_API_KEY=sk-xxxx
+```
+
+3. Then run with:
+
+```bash
+python logsnap.py --file sample.log --gpt-summary
+```
+
+---
+
 ## 📁 Project Structure
 
 ```
 logsnap/
 ├── logsnap.py         # Main CLI script
 ├── parser.py          # Parsing and highlighting logic
+├── ai.py              # GPT summary logic
 ├── sample.log         # Sample test log
 ├── sample_big.log     # Large generated log for testing
 ├── requirements.txt
@@ -116,16 +143,16 @@ logsnap/
 
 ## 📌 Notes
 
-- Works on Linux, macOS, and WSL (Windows Subsystem for Linux).
-- Designed to be readable and fast. No external logging dependencies.
-- Extendable — you can easily add real-time streaming, GPT summarization, etc.
+- Works on Linux, macOS, and WSL.
+- You can disable GPT features by omitting `--gpt-summary`.
+- Extendable — you can add real-time streaming, `.env` loading, etc.
 
 ---
 
 ## 🧑‍💻 Author
 
 Made with ☕ and terminal love by Claire Chiou  
-[GitHub](https://github.com/yourusername) | [LinkedIn](https://linkedin.com/in/yourprofile)
+[GitHub](https://github.com/clairefantastic) | [LinkedIn](https://linkedin.com/in/yun-ting-chiou)
 
 ---
 
